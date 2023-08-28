@@ -17,16 +17,13 @@ class TableInvoiceController extends Controller
     public function tableinsert(Request $request)
     {
 
-        DB::table('invoice')->insert([
-            'invoicecompanyname' => $request-> invoivename,
-            'address' => $request-> invoiceaddress,
-            'contact' => $request-> invoicecontact,
-        ]);
-        return redirect('/invoicelist')->with('message', 'inserted');
-    }
-    public function insertbill(Request $request)
-    {
-        $invoiceid = InvoiceDetails::insertGetId([
+        // DB::table('invoice')->insert([
+        //     'invoicecompanyname' => $request-> invoivename,
+        //     'address' => $request-> invoiceaddress,
+        //     'contact' => $request-> invoicecontact,
+        // ]);
+        // print_r($request->all());exit;
+        $invoiceid = Invoicemodel::insertGetId([
             'invoicecompanyname' =>$request-> invoivename,
             'address' =>$request-> invoiceaddress,
             'contact' =>$request-> invoicecontact
@@ -40,36 +37,37 @@ class TableInvoiceController extends Controller
         $amount = $request->amount;
 
         $count = count($itemname);
-        for($i=0;$i<$count;$i++)
+        for($i=0; $i<$count; $i++)
         {
-            $itemname = $itemname[$i];
-            $hsn = $hsn[$i];
-            $quantity = $quantity[$i];
-            $unit = $unit[$i];
-            $price = $price[$i];
-            $amount = $amount[$i];
+            $itemname_str = $itemname[$i];
+            $hsn_str = $hsn[$i];
+            $quantity_str = $quantity[$i];
+            $unit_str = $unit[$i];
+            $price_str = $price[$i];
+            $amount_str = $amount[$i];
 
-            if ($itemname!=''){
+            if ( trim($itemname_str)!=''){
                 InvoiceDetails::insert([
-                    'invoiceid' =>$invoiceid,
-                    'itemname' => $itemname,
-                    'hsn' => $hsn,
-                    'quantity' => $quantity,
-                    'unit' => $unit,
-                    'price' => $price,
-                    'amount' => $amount
+                    'invoiceid' => $invoiceid,
+                    'itemname' => $itemname_str,
+                    'hsn' => $hsn_str,
+                    'quantity' => $quantity_str,
+                    'unit' => $unit_str,
+                    'price' => $price_str,
+                    'amount' => $amount_str
 
                 ]);
             }
         }
-
-        return redirect ('invoicetable');
+        return redirect('/invoicelist')->with('message', 'inserted');
     }
+
 
     public function invoicetable()
     {
         $lists = Invoicemodel::all();
-        return view('invoicelist',compact('lists'));
+        $invoice = InvoiceDetails::all();
+        return view('invoicelist',compact('lists','invoice'));
     }
 
     public function invoicedelete($id)
@@ -86,7 +84,16 @@ class TableInvoiceController extends Controller
     {
         // $edits = DB::select("select * from companydetails where id=?",[$id]);
         $edits = Invoicemodel::find($id);
-        return view('edit_invoice',compact('edits'));
+        //$listinvoice = InvoiceDetails::find($id);
+         $listinvoice = DB::select("select * from invoicedetails where id=?",[$id]);
+        // $listinvoice = DB::table('invoicedetails')
+        //         ->whereColumn([
+        //             ['id', '=', 'invoiceid']
+        //         ])->get()->all();
+        // $listin = DB::table('invoicedetails')
+        // ->whereColumn('id', 'invoiceid')
+        // ->get();
+        return view('edit_invoice',compact('edits','listinvoice'));
     }
 
     public function updateinvoice(Request $request,$id)
@@ -94,10 +101,26 @@ class TableInvoiceController extends Controller
         $name = $request->input('ucompanyname');
         $email = $request->input('uaddress');
         $mobile = $request->input('ucontact');
-
-
         DB::update('update invoice set invoicecompanyname=?, address=?, contact=? where id=?',
         [$name,$email,$mobile,$id]);
+
+
+        InvoiceDetails::where('id',$id)->update([
+                    'itemname' => $request->itemname,
+                    'hsn' => $request->hsn,
+                    'quantity' => $request->quantity,
+                    'unit' => $request->unit,
+                    'price' => $request->price,
+                    'amount' => $request->amount
+        ]);
+        // $itemname = $request->input('itemname');
+        // $hsn = $request->input('itemname');
+        // $quantity = $request->input('quantity');
+        // $unit = $request->input('unit');
+        // $price = $request->input('price');
+        // $amount = $request->input('amount');
+        // DB::update('update invoice set itemname=?, hsn=?, quantity=?, unit=?, price=?, amount=?   where id=?',
+        // [ $itemname,$hsn,$quantity,$unit,$price,$amount,$id]);
         return redirect('/invoicelist')->with('message', 'Updated');
     }
 }
