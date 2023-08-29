@@ -1,5 +1,4 @@
-
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -108,38 +107,26 @@
                     </tr>
                   </thead>
                   <tbody>
-                      {{-- @for ($i = 0; $i <=$listinvoice[0]->id ; $i++) --}}
-                      {{-- @foreach ($listinvoice as $listin)
-                     @if (($listinvoice[0]->id == $listinvoice[0]->invoiceid)==$listinvoice[0]->itemname) --}}
-                     @php
-                         $i = $listinvoice[0]->invoiceid;
-
-                     @endphp
-
+                      @for ($i = 1; $i <= 1 ; $i++)
+                      @php
+                          $j = 1;
+                      @endphp
+                      @foreach ($listinvoice as $list)
 
                      <tr>
-                        <td>{{ $i }}</td>
-                        <td><input class="form-control itemname" type="text" name="itemname[]" value="{{ $listinvoice[0]->itemname }}"></td>
-                        <td><input class="form-control hsn" style="width: 90px" type="text" name="hsn[]" value="{{ $listinvoice[0]->hsn }}"></td>
-                        <td><input class="form-control quantity" style="width: 90px" type="number" name="quantity[]" value="{{ $listinvoice[0]->quantity }}"></td>
-                        <td><input class="form-control unit" style="width: 90px" type="text" name="unit[]" value="{{ $listinvoice[0]->unit }}"></td>
-                        <td><input class="form-control price" style="width: 130px" type="number" name="price[]" value="{{ $listinvoice[0]->price }}"></td>
-                        <td><input class="form-control amount" style="width: 130px" type="number" name="amount[]" value="{{ $listinvoice[0]->amount }}"></td>
+                        <td>{{ $j }}</td>
+                        <td><input class="form-control itemname" type="text" name="uitemname[]" value="{{ $list->itemname }}"></td>
+                        <td><input class="form-control hsn" style="width: 90px" type="text" name="uhsn[]" value="{{ $list->hsn }}"></td>
+                        <td><input class="form-control quantity" style="width: 90px" type="number" name="uquantity[]" value="{{ $list->quantity }}"></td>
+                        <td><input class="form-control unit" style="width: 90px" type="text" name="uunit[]" value="{{ $list->unit }}"></td>
+                        <td><input class="form-control price" style="width: 130px" type="number" name="uprice[]" value="{{ $list->price }}"></td>
+                        <td><input class="form-control amount" style="width: 130px" type="number" name="uamount[]" value="{{ $list->amount }}"></td>
                      </tr>
                      @php
-                         $i++;
+                         $j++;
                      @endphp
-
-
-                           {{-- @php
-                               print_r($listinvoice[0]->id);exit;
-                           @endphp --}}
-
-                           {{-- @else
-                             no data
-                           @endif
-                           @endforeach --}}
-                      {{-- @endfor --}}
+                           @endforeach
+                      @endfor
                       <tr>
                           <td></td>
                           <td><h4>Total</h4></td>
@@ -157,7 +144,7 @@
                 <div class="row mb-3 text-center">
 
                   <div class="col-sm-10">
-                    <button type="submit" class="btn btn-primary">Submit Form</button>
+                    <button type="submit" class="btn btn-primary">Update Bill</button>
                   </div>
                 </div>
               </form>
