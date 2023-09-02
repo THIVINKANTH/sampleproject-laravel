@@ -25,7 +25,7 @@
   <link href="{{ asset('resources/assets/vendor/quill/quill.bubble.css') }}" rel="stylesheet">
   <link href="{{ asset('resources/assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
   <link href="{{ asset('resources/assets/vendor/simple-datatables/style.css') }}" rel="stylesheet">
-
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
   <!-- Template Main CSS File -->
   <link href="{{ asset('resources/assets/css/style.css') }}" rel="stylesheet">
 
@@ -94,6 +94,12 @@
                       </div>
                       <h5 class="card-title">Invoice Table</h5>
                       <!-- Table with stripped rows -->
+                       <div class="row mb-3" style="padding-left: 700px">
+                            <label for="inputDate" class="col-sm-2 col-form-label text-end">Date</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="date" id="datepicker">
+                            </div>
+                        </div>
                 <table class="table datatable">
                   <thead>
                     <tr>
@@ -120,7 +126,7 @@
                           <td><input class="form-control amount" style="width: 130px" type="number" name="amount[]"></td>
                       </tr>
                       @endfor
-                      <tr>
+                      <tr class="tol">
                           <td></td>
                           <td><h4>Total</h4></td>
                           <td></td>
@@ -174,14 +180,41 @@
         var amount = price * $(this).val();
         $(this).closest('tr').find('.amount').val(amount);
     });
-    // $('.totalquantity').on('keyup',function()
-    // {
-    //     var qut = $(this).closest('td').find('.quantity').val();
-    //     var totalqut = qut  $(this).val();
-    //     $(this).closest('td').find('.totalquantity').val(totalqut);
-    // });
-</script>
+    $('.quantity').on('keyup',function()
+    {
+        var sum = 0;
+        $('.quantity').each(function() {
 
+            if($(this).val()!="")
+            {
+                sum += parseFloat($(this).val());
+            }
+
+        });
+        $('.tol').find('.totalquantity').val(sum);
+    });
+
+
+    $('.price').on('keyup',function()
+    {
+        var total = 0;
+        $('.amount').each(function() {
+
+            if($(this).val()!="")
+            {
+                total += parseFloat($(this).val());
+            }
+
+        });
+        $('.tol').find('.totalamount').val(total);
+    });
+</script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#datepicker" ).datepicker({ dateFormat: 'dd-mm-yy' });
+  } );
+  </script>
 
 
 

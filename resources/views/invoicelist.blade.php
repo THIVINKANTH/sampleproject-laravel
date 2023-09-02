@@ -96,6 +96,7 @@
                     <td>
                         <a href="updateinvoice/{{ $list->id }}" type="button" class="btn btn-warning">Edit</a>
                         <a href="deleteinvoice/{{ $list->id }}" type="button" class="btn btn-danger">Delete</a>
+                        <a href="invoicepages/{{ $list->id }}" type="button" class="btn btn-info">Print</a>
                     </td>
                     </tr>
                     @php

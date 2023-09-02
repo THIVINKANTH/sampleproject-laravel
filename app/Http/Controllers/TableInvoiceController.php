@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Companydetails;
 use App\Models\InvoiceDetails;
 use App\Models\Invoicemodel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Termwind\Components\BreakLine;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Rmunate\Utilities\SpellNumber;
+
 
 class TableInvoiceController extends Controller
 {
@@ -29,7 +32,8 @@ class TableInvoiceController extends Controller
             'address' =>$request-> invoiceaddress,
             'contact' =>$request-> invoicecontact
         ]);
-
+        // $date = date('y-m-d');
+        $date = $request->date;
         $itemname = $request->itemname;
         $hsn = $request->hsn;
         $quantity = $request->quantity;
@@ -40,6 +44,7 @@ class TableInvoiceController extends Controller
         $count = count($itemname);
         for($i=0; $i<$count; $i++)
         {
+            $date_str = date('Y-m-d',strtotime($date));
             $itemname_str = $itemname[$i];
             $hsn_str = $hsn[$i];
             $quantity_str = $quantity[$i];
@@ -49,6 +54,7 @@ class TableInvoiceController extends Controller
 
             if ( trim($itemname_str)!=''){
                 InvoiceDetails::insert([
+                   'date' => $date_str ,
                     'invoiceid' => $invoiceid,
                     'itemname' => $itemname_str,
                     'hsn' => $hsn_str,
@@ -85,71 +91,49 @@ class TableInvoiceController extends Controller
     {
         // $edits = DB::select("select * from companydetails where id=?",[$id]);
         $edits = Invoicemodel::find($id);
-        $listinvoice =DB::select('select itemname, hsn, quantity, unit, price, amount  from invoicedetails where invoiceid = ?', [$id]);
-        //$listinvoice = InvoiceDetails::find($id);
-        //  $listinvoice = InvoiceDetails::select("'itemname', 'hsn', 'quantity', 'unit', 'price', 'amount'")
-        //                 ->whereColumn( 'invoice.id', 'invoicedetails.invoiceid')
-        //                 ->get();
-        // $listinvoice = DB::table('invoicedetails')
-        //         ->whereColumn([
-        //             ['id', '=', 'invoiceid']
-        //         ])->get()->all();
-        // $listin = DB::table('invoicedetails')
-        // ->whereColumn('id', 'invoiceid')
-        // ->get();
-
-        // $edits = DB::table('invoice')
-        //         ->select(DB::raw('invoicecompanyname','address','contact','itemname', 'hsn', 'quantity', 'unit', 'price', 'amount'))
-        //         ->whereColumn('invoice.id', 'invoicedetails.invoiceid',$id);
-
-        // $listinvoice = DB::table('invoicedetails')
-        //             ->whereExists($edits)
-        //             ->get();
-
-
-        // $listinvoice = DB::table('invoice')
-        //             ->join('invoicedetails', 'invoice.id', '=', 'invoicedetails.invoiceid')
-        //             // ->join('orders', 'users.id', '=', 'orders.user_id')
-        //             ->select('invoice.*', 'invoicedetails.itemname', 'invoicedetails.hsn','invoicedetails.quantity','invoicedetails.unit','invoicedetails.price','invoicedetails.amount')
-        //             ->get();
-        // $listinvoice = DB::table('invoicedetails')
-        //         ->select('itemname', 'hsn', 'quantity', 'unit', 'price', 'amount')
-        //         ->where([ 'invoice.id', '==',$id])
-        //         ->get();
-                     // print_r($listinvoice);exit;
+        $listinvoice =DB::table('invoice')
+        ->join('invoicedetails', 'invoice.id', '=', 'invoicedetails.invoiceid')
+        ->select('invoice.*', 'invoicedetails.*')
+        ->where('invoiceid', $id)->distinct('invoiceid')->get();
         return view('edit_invoice',['listinvoice' => $listinvoice],compact('edits'));
     }
 
-    public function updateinvoice(Request $request,$id)
+    public function updateinvoice(Request $request,$id )
     {
         $name = $request->input('ucompanyname');
-        $email = $request->input('uaddress');
+        $address = $request->input('uaddress');
         $mobile = $request->input('ucontact');
-        DB::update('update invoice set invoicecompanyname=?, address=?, contact=? where id=?',
-        [$name,$email,$mobile,$id]);
+        Invoicemodel::where('id',$id)->update([
+            'invoicecompanyname'=>$name,
+            'address'=>$address,
+            'contact'=>$mobile,
+        ]);
 
-
-
-
+        $date = $request->input('date');
         $itemname = $request->input('uitemname');
         $hsn = $request->input('uhsn');
         $quantity = $request->input('uquantity');
         $unit = $request->input('uunit');
         $price = $request->input('uprice');
         $amount = $request->input('uamount');
+        $did = $request->input('did');
         $count = count($itemname);
-        for($i=0; $i<$id; $i++)
+
+
+        for($i=0; $i<$count; $i++)
         {
+            $date_str = date('Y-m-d',strtotime($date));
             $itemname_str = $itemname[$i];
             $hsn_str = $hsn[$i];
             $quantity_str = $quantity[$i];
             $unit_str = $unit[$i];
             $price_str = $price[$i];
             $amount_str = $amount[$i];
-            if($itemname !='')
-            {
-               $invoiceup= InvoiceDetails::where('invoiceid',$id)->update([
+            $did_str = $did[$i];
 
+                $invoiceup= InvoiceDetails::where('id', $did_str)->update([
+
+                    'date' => $date_str ,
                     'itemname' =>  $itemname_str,
                     'hsn' => $hsn_str,
                     'quantity' => $quantity_str,
@@ -157,31 +141,29 @@ class TableInvoiceController extends Controller
                     'price' =>  $price_str,
                     'amount' =>$amount_str
                 ]);
-                break;
-            }
-            //print_r($invoiceup);exit;
 
         }
-
-
-
-
-
-        // $invoiceup = DB::table('invoicedetails')
-        //       ->where('id', $id)
-        //       ->update(['itemname' => $itemname,'hsn' => $hsn,'quantity' => $quantity,'unit' => $unit, 'price' => $price, 'amount' => $amount]);
-
-
-        // $itemname = $request->input('itemname');
-        // $hsn = $request->input('itemname');
-        // $quantity = $request->input('quantity');
-        // $unit = $request->input('unit');
-        // $price = $request->input('price');
-        // $amount = $request->input('amount');
-        // $invoiceup = DB::update('update invoicedetails set itemname=?, hsn=?, quantity=?, unit=?, price=?, amount=?   where id=?',
-        // [ $itemname,$hsn,$quantity,$unit,$price,$amount,$id]);
-
-        //  print_r($invoiceup);exit;
         return redirect('/invoicelist')->with('message', 'Updated');
     }
+
+
+    public function invoicebill($id)
+    {
+        $name = Companydetails::all();
+        $customer = Invoicemodel::find($id);
+        $bill =DB::table('invoice')
+        ->join('invoicedetails', 'invoice.id', '=', 'invoicedetails.invoiceid')
+        ->select('invoice.*', 'invoicedetails.*')
+        ->where('invoiceid', $id)->distinct('invoiceid')->get();
+        $pdf = Pdf::loadView('invoicepage',compact('name','customer','bill'));
+        return $pdf->stream();
+       // return view('invoicepage', compact('name','customer','bill'));
+    }
+
+    // public function showcustomer()
+    // {
+    //     $num = 254678;
+    //     $letter = SpellNumber::value($num)->toLetters();
+    //     echo $letter;
+    // }
 }

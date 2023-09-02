@@ -68,7 +68,7 @@
               <h5 class="card-title">General Form Elements</h5>
 
               <!-- General Form Elements -->
-              <form method="POST" action="{{ url('/insert') }}">
+              <form method="POST" action="{{ url('/insert') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="row mb-3">
                   <label for="inputText" class="col-sm-2 col-form-label">Company Name</label>
@@ -97,19 +97,19 @@
                 <div class="row mb-3">
                   <label for="inputNumber" class="col-sm-2 col-form-label">Logo Upload</label>
                   <div class="col-sm-10">
-                    <input class="form-control" type="text" id="formFile" name="logo">
+                    <input class="form-control" type="file" id="formFile" name="logo">
                   </div>
                 </div>
                 <div class="row mb-3">
                     <label for="inputNumber" class="col-sm-2 col-form-label">Sign Upload</label>
                     <div class="col-sm-10">
-                      <input class="form-control" type="text" id="formFile" name="sign">
+                      <input class="form-control" type="file" id="formFile" name="sign">
                     </div>
                   </div>
                  {{-- <div class="row mb-3">
                   <label for="inputDate" class="col-sm-2 col-form-label">Date</label>
                   <div class="col-sm-10">
-                    <input type="date" class="form-control">
+                    <input type="date" class="form-control" name="date">
                   </div>
                 </div> --}}
                 <div class="row mb-3">

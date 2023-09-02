@@ -97,19 +97,19 @@
                 <div class="row mb-3">
                     <label for="inputNumber" class="col-sm-2 col-form-label">Logo Upload</label>
                     <div class="col-sm-10">
-                      <input class="form-control" type="text" id="formFile" name="ulogo" value="{{ $edits->logo }}">
+                      <input class="form-control" type="file" id="formFile" name="ulogo" value="{{ $edits->logo }}">
                     </div>
                   </div>
                   <div class="row mb-3">
                       <label for="inputNumber" class="col-sm-2 col-form-label">Sign Upload</label>
                       <div class="col-sm-10">
-                        <input class="form-control" type="text" id="formFile" name="usign" value="{{ $edits->sign }}">
+                        <input class="form-control" type="file" id="formFile" name="usign" value="{{ $edits->sign }}">
                       </div>
                     </div>
                 {{-- <div class="row mb-3">
                   <label for="inputDate" class="col-sm-2 col-form-label">Date</label>
                   <div class="col-sm-10">
-                    <input type="date" class="form-control">
+                    <input type="date" class="form-control" name="date">
                   </div>
                 </div> --}}
                 <div class="row mb-3">

@@ -25,7 +25,7 @@
   <link href="{{ asset('resources/assets/vendor/quill/quill.bubble.css') }}" rel="stylesheet">
   <link href="{{ asset('resources/assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
   <link href="{{ asset('resources/assets/vendor/simple-datatables/style.css') }}" rel="stylesheet">
-
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
   <!-- Template Main CSS File -->
   <link href="{{ asset('resources/assets/css/style.css') }}" rel="stylesheet">
 
@@ -94,6 +94,15 @@
                       </div>
                       <h5 class="card-title">Invoice Table</h5>
                       <!-- Table with stripped rows -->
+                      @foreach ($listinvoice as $invoice)
+
+                      @endforeach
+                      <div class="row mb-3" style="padding-left: 700px">
+                        <label for="inputDate" class="col-sm-2 col-form-label text-end">Date</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="date" id="datepicker" value="{{ $invoice->date }}">
+                        </div>
+                    </div>
                 <table class="table datatable">
                   <thead>
                     <tr>
@@ -107,7 +116,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                      @for ($i = 1; $i <= 1 ; $i++)
+                      {{-- @for ($i = 1; $i <= 1 ; $i++) --}}
                       @php
                           $j = 1;
                       @endphp
@@ -115,6 +124,7 @@
 
                      <tr>
                         <td>{{ $j }}</td>
+                        <input type="hidden" name="did[]" value="{{ $list->id }}">
                         <td><input class="form-control itemname" type="text" name="uitemname[]" value="{{ $list->itemname }}"></td>
                         <td><input class="form-control hsn" style="width: 90px" type="text" name="uhsn[]" value="{{ $list->hsn }}"></td>
                         <td><input class="form-control quantity" style="width: 90px" type="number" name="uquantity[]" value="{{ $list->quantity }}"></td>
@@ -126,15 +136,15 @@
                          $j++;
                      @endphp
                            @endforeach
-                      @endfor
-                      <tr>
+                      {{-- @endfor --}}
+                      <tr class="tol">
                           <td></td>
                           <td><h4>Total</h4></td>
                           <td></td>
                           <td><input class="form-control totalquantity" style="width: 90px" type="number" name="totalquantity"></td>
                           <td></td>
                           <td></td>
-                          <td><input class="form-control totalamount" style="width: 130px" type="number" name="totalamount"></td>
+                          <td><input class="form-control totalamount" style="width: 130px" type="number" name="totalamount" ></td>
 
                       </tr>
 
@@ -181,14 +191,42 @@
         var amount = price * $(this).val();
         $(this).closest('tr').find('.amount').val(amount);
     });
-    // $('.totalquantity').on('keyup',function()
-    // {
-    //     var qut = $(this).closest('td').find('.quantity').val();
-    //     var totalqut = qut  $(this).val();
-    //     $(this).closest('td').find('.totalquantity').val(totalqut);
-    // });
-</script>
 
+    $('.quantity').load('keyup',function()
+    {
+        var sum = 0;
+        $('.quantity').each(function() {
+
+            if($(this).val()!="")
+            {
+                sum += parseFloat($(this).val());
+            }
+
+        });
+        $('.tol').find('.totalquantity').val(sum);
+    });
+
+
+    $('.price').load('keyup',function()
+    {
+        var total = 0;
+        $('.amount').each(function() {
+
+            if($(this).val()!="")
+            {
+                total += parseFloat($(this).val());
+            }
+
+        });
+        $('.tol').find('.totalamount').val(total);
+    });
+</script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#datepicker" ).datepicker({ dateFormat: 'dd-mm-yy' });
+  } );
+  </script>
 
 
 

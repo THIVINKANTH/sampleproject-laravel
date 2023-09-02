@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Companydetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use File;
 
 class InvoiceController extends Controller
 {
@@ -13,6 +14,17 @@ class InvoiceController extends Controller
     {
         return view('insertform');
     }
+
+    public function Fileupload($file,$destinationPath,$dir)
+    {
+        $file->move($destinationPath,$file->getClientOriginalName());
+
+        // return '/'.$file->getClientOriginalName();
+
+        return asset('public/'.$dir.'/'.$file->getClientOriginalName());
+    }
+
+
     public function insertdata(Request $request)
     {
         // $name = $request->input('name');
@@ -21,14 +33,19 @@ class InvoiceController extends Controller
         // $address = $request->input('address');
         // insert database
 
+        $logo = $request-> file('logo');
+        $sign = $request-> file('sign');
+
+        $logo = $this->Fileupload($logo,public_path('/logo'),'logo');
+        $sign = $this->Fileupload($sign,public_path('/sign'),'sign');
 
         DB::table('companydetails')->insert([
             'companyname' => $request-> name,
             'email' => $request-> email,
             'mobile' => $request-> mobile,
             'address' => $request-> address,
-            'logo' => $request-> logo,
-            'sign' => $request-> sign,
+            'logo' => $logo,
+            'sign' => $sign,
             'bankname' => $request-> bankname,
             'bankacnum' => $request-> bankacnumber,
             'ifsccode' => $request-> ifsccode,
@@ -43,6 +60,12 @@ class InvoiceController extends Controller
         $list = Companydetails::all();
         return view('tablelist',compact('list'));
     }
+
+    // public function showcompanyname($id)
+    // {
+    //     $name = Companydetails::where('id',$id)->get();
+    //     return view('invoicepage', compact('name'));
+    // }
 
     public function delete($id)
     {

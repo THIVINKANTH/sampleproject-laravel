@@ -9,5 +9,10 @@ class Invoicemodel extends Model
 {
     use HasFactory;
     protected $table = "invoice";
-    protected $fillable = [];
+    protected $fillable = ['id', 'invoicecompanyname', 'address', 'contact'];
+
+    // public function invoiceforrign()
+    // {
+    //     return $this->hasMany(InvoiceDetails::class);
+    // }
 }

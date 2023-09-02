@@ -65,3 +65,11 @@ Route::get('/deleteinvoice/{id}',[TableInvoiceController::class,'invoicedelete']
 //update invoice
 Route::get('updateinvoice/{id}',[TableInvoiceController::class,'editinvoice']);
 Route::post('updateinvoice/{id}',[TableInvoiceController::class,'updateinvoice']);
+
+
+//invoice page
+//company name
+ Route::get('invoice',[TableInvoiceController::class,'showcustomer']);
+
+Route::get('invoicepages/{id}',[TableInvoiceController::class,'invoicebill']);
+
