@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Tables / Data - NiceAdmin Bootstrap Template</title>
+  <title>Invoice</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -51,25 +51,27 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Data Tables</h1>
-      <nav>
+      <h1>Invoice
+        <a href="{{ url('invoiceinsert') }}" class="btn btn-info btn-sm" style="float: right">Add</a>
+      </h1>
+      {{-- <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
           <li class="breadcrumb-item">Tables</li>
           <li class="breadcrumb-item active">Data</li>
         </ol>
-      </nav>
+      </nav> --}}
     </div><!-- End Page Title -->
     <div class="row justify-content-center" style="font-size:30px; color: purple;font-style: italic">
         {{ session('message') }}
     </div>
     <section class="section">
-      <div class="row" style="width: 1000px">
+      <div class="row">
         <div class="col-xl">
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Invoice Table List</h5>
+              <h5 class="card-title"></h5>
 
               <!-- Table with stripped rows -->
               <table class="table datatable">
@@ -94,9 +96,9 @@
                     <td>{{ $list->address }}</td>
                     <td>{{ $list->contact }}</td>
                     <td>
-                        <a href="updateinvoice/{{ $list->id }}" type="button" class="btn btn-warning">Edit</a>
-                        <a href="deleteinvoice/{{ $list->id }}" type="button" class="btn btn-danger">Delete</a>
-                        <a href="invoicepages/{{ $list->id }}" type="button" class="btn btn-info">Print</a>
+                        <a href="updateinvoice/{{ $list->id }}" type="button" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="deleteinvoice/{{ $list->id }}" type="button" class="btn btn-danger btn-sm">Delete</a>
+                        <a href="invoicepages/{{ $list->id }}" type="button" class="btn btn-info btn-sm" target="_blank">Print</a>
                     </td>
                     </tr>
                     @php

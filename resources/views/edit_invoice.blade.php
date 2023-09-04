@@ -51,14 +51,7 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>General Tables</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item">Tables</li>
-          <li class="breadcrumb-item active">General</li>
-        </ol>
-      </nav>
+      <h1>Invoice</h1>
     </div><!-- End Page Title -->
     <div class="row justify-content-center" style="font-size:30px; color: purple;font-style: italic">
         {{ session('message') }}
@@ -69,7 +62,7 @@
 
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">Form Invoice</h5>
+                <h5 class="card-title">Invoice Updates</h5>
                   <form action="{{ url('/updateinvoice',$edits->id) }}" method="POST">
                       @csrf
                       <div class="row">
@@ -92,7 +85,7 @@
                               </div>
                             </div>
                       </div>
-                      <h5 class="card-title">Invoice Table</h5>
+                      {{-- <h5 class="card-title">Invoice Table</h5> --}}
                       <!-- Table with stripped rows -->
                       @foreach ($listinvoice as $invoice)
 
@@ -100,7 +93,7 @@
                       <div class="row mb-3" style="padding-left: 700px">
                         <label for="inputDate" class="col-sm-2 col-form-label text-end">Date</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" name="date" id="datepicker" value="{{ $invoice->date }}">
+                            <input type="text" class="form-control" name="date" id="datepicker" value="{{ $invoice->date }}" style="width: 300px">
                         </div>
                     </div>
                 <table class="table datatable">
@@ -141,10 +134,10 @@
                           <td></td>
                           <td><h4>Total</h4></td>
                           <td></td>
-                          <td><input class="form-control totalquantity" style="width: 90px" type="number" name="totalquantity"></td>
+                          <td><input class="form-control totalquantity" style="width: 90px" type="number" name="totalquantity" readonly></td>
                           <td></td>
                           <td></td>
-                          <td><input class="form-control totalamount" style="width: 130px" type="number" name="totalamount" ></td>
+                          <td><input class="form-control totalamount" style="width: 130px" type="number" name="totalamount" readonly></td>
 
                       </tr>
 
@@ -154,7 +147,7 @@
                 <div class="row mb-3 text-center">
 
                   <div class="col-sm-10">
-                    <button type="submit" class="btn btn-primary">Update Bill</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Update Bill</button>
                   </div>
                 </div>
               </form>

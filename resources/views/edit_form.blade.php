@@ -49,14 +49,7 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Form Elements</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item">Forms</li>
-          <li class="breadcrumb-item active">Elements</li>
-        </ol>
-      </nav>
+      <h1>Company Info</h1>
     </div><!-- End Page Title -->
 
     <section class="section">
@@ -65,7 +58,7 @@
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">General Form Updates</h5>
+              <h5 class="card-title">Company Info Updates</h5>
 
               <!-- General Form Elements -->
               <form method="POST" action={{ url('/update',$edits->id) }}>
@@ -146,7 +139,7 @@
                 <div class="row mb-3 text-center">
 
                   <div class="col-sm-10">
-                    <button type="submit" class="btn btn-primary">Update Form</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Update Form</button>
                   </div>
                 </div>
               </form><!-- End General Form Elements -->

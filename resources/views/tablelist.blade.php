@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Tables / Data - NiceAdmin Bootstrap Template</title>
+  <title>Company Info</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -51,25 +51,27 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Data Tables</h1>
-      <nav>
+      <h1>Company Info
+        {{-- <a href="{{ url('insert') }}" class="btn btn-info btn-sm" style="float: right">Add</a> --}}
+      </h1>
+      {{-- <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
           <li class="breadcrumb-item">Tables</li>
           <li class="breadcrumb-item active">Data</li>
         </ol>
-      </nav>
+      </nav> --}}
     </div><!-- End Page Title -->
     <div class="row justify-content-center" style="font-size:30px; color: purple;font-style: italic">
         {{ session('message') }}
     </div>
     <section class="section">
-      <div class="row" style="width: 1500px">
+      <div class="row" >
         <div class="col-xl">
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Datatables</h5>
+              <h5 class="card-title"></h5>
 
               <!-- Table with stripped rows -->
               <table class="table datatable">
@@ -79,13 +81,13 @@
                     <th scope="col">Company Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Mobile</th>
-                    <th scope="col">Address</th>
+                    {{-- <th scope="col">Address</th>
                     <th scope="col">Logo</th>
                     <th scope="col">Sign</th>
                     <th scope="col">Bank Name</th>
                     <th scope="col">Bank Account No</th>
                     <th scope="col">IFSC Code</th>
-                    <th scope="col">AC/Holder Name</th>
+                    <th scope="col">AC/Holder Name</th> --}}
                     <th scope="col">Action</th>
 
                   </tr>
@@ -100,16 +102,16 @@
                         <td>{{ $lists->companyname }}</td>
                         <td>{{ $lists->email }}</td>
                         <td>{{ $lists->mobile }}</td>
-                        <td>{{ $lists->address }}</td>
+                        {{-- <td>{{ $lists->address }}</td>
                         <td>{{ $lists->logo }}</td>
                         <td>{{ $lists->sign }}</td>
                         <td>{{ $lists->bankname }}</td>
                         <td>{{ $lists->bankacnum }}</td>
                         <td>{{ $lists->ifsccode }}</td>
-                        <td>{{ $lists->acholdername }}</td>
+                        <td>{{ $lists->acholdername }}</td> --}}
                         <td>
-                            <a href="update/{{ $lists->id }}" type="button" class="btn btn-warning">Edit</a>
-                            <a href="delete/{{ $lists->id }}" type="button" class="btn btn-danger">Delete</a>
+                            <a href="update/{{ $lists->id }}" type="button" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="delete/{{ $lists->id }}" type="button" class="btn btn-danger btn-sm">Delete</a>
                         </td>
                         </tr>
                         @php
